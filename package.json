@@ -28,7 +28,7 @@
       },
       {
         "command": "waste-of-space.compile",
-        "title": "compile"
+        "title": "WoS: Compile"
       }
     ],
     "configuration": {

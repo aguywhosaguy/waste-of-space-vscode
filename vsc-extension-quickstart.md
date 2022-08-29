@@ -1,41 +1,49 @@
-# Welcome to your VS Code Extension
+# The (Un)official Waste of Space VSCode Plugin
+## Overview
 
-## What's in the folder
+ - Supports instantly publishing to Pastebin, Hastebin and Github Gists.
+ - Potential support for intellisense
+ - Better modules
+ Warning: This plugin is in beta. Many features are not added, unfinished or bugged. Use with caution.
+ This plugin is best used with the Lua/Luau plugin aswell.
+## Docs
+**Publishing**
+To publish your script to Paste/Hastebin or Github Gists (unsupported at the moment) press Ctrl + Shift + P to open the command palette. Then, type "WoS: Publish to Hastebin/Pastebin/Github Gists". Note that you may be prompted to enter API credentials. If you want to automate this, you can do so in the plugin settings.
+**Better Modules**
+Waste of Space doesn't support requiring scripts like this:
 
-* This folder contains all of the files necessary for your extension.
-* `package.json` - this is the manifest file in which you declare your extension and command.
-  * The sample plugin registers a command and defines its title and command name. With this information VS Code can show the command in the command palette. It doesn’t yet need to load the plugin.
-* `extension.js` - this is the main file where you will provide the implementation of your command.
-  * The file exports one function, `activate`, which is called the very first time your extension is activated (in this case by executing the command). Inside the `activate` function we call `registerCommand`.
-  * We pass the function containing the implementation of the command as the second parameter to `registerCommand`.
+    local canvas = require("script link here")
+    canvas.DoThing(Param1, Param2)
 
-## Get up and running straight away
+However, with the plugin you can add comments at the top of your file to require scripts like in C++.
 
-* Press `F5` to open a new window with your extension loaded.
-* Run your command from the command palette by pressing (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) and typing `Hello World`.
-* Set breakpoints in your code inside `extension.js` to debug your extension.
-* Find output from your extension in the debug console.
-
-## Make changes
-
-* You can relaunch the extension from the debug toolbar after changing code in `extension.js`.
-* You can also reload (`Ctrl+R` or `Cmd+R` on Mac) the VS Code window with your extension to load your changes.
-
-## Explore the API
-
-* You can open the full set of our API when you open the file `node_modules/@types/vscode/index.d.ts`.
-
-## Run tests
-
-* Open the debug viewlet (`Ctrl+Shift+D` or `Cmd+Shift+D` on Mac) and from the launch configuration dropdown pick `Extension Tests`.
-* Press `F5` to run the tests in a new window with your extension loaded.
-* See the output of the test result in the debug console.
-* Make changes to `src/test/suite/extension.test.js` or create new test files inside the `test/suite` folder.
-  * The provided test runner will only consider files matching the name pattern `**.test.ts`.
-  * You can create folders inside the `test` folder to structure your tests any way you want.
-
-## Go further
-
- * [Follow UX guidelines](https://code.visualstudio.com/api/ux-guidelines/overview) to create extensions that seamlessly integrate with VS Code's native interface and patterns.
- * [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace.
- * Automate builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
+        --COMPILE
+        canvas = {}
+        --IMPORT https://gist.githubusercontent.com/Weldify/f6df89c12c7edd89cf4f7943db053832/raw/d5d2aa3887fcda2275233576db5ba299c4c5eb3b/canvas.lua
+        local screen = GetPartFromPort(1, "Screen")
+    
+    canvas.prepare(screen, 128, 128, 5)
+    
+    canvas.setColor(canvas.COL_ORANGE)
+    canvas.setPivot(.5, .5)
+    
+    local angle = 0
+    while true do
+    	angle += Wait()
+    	canvas.setAngle(angle)
+    
+    	canvas.clear()
+    
+    	canvas.polygon(64, 64, 0, 0, 64, 0, 32, 64)
+    
+    	canvas.present()
+    end
+   
+   In this example, we import the raw "canvas.lua" file from [Weldify's canvas module.](https://gist.github.com/Weldify/f6df89c12c7edd89cf4f7943db053832)
+   Note that --COMPILE **must** be at the top of the file, or no checks will be done.
+   However, --IMPORT can be placed anywhere in the file.
+   IMPORT works by replacing the import statement with the data from the posted URL.
+   The "canvas = {}" part isn't required but is recommended to avoid VSCode from throwing an error. The reason it doesn't have the local keyword is so the variable can be replaced by the canvas module.
+   However, putting this script in Waste of Space will throw an error. This is because you have to "compile" the program.
+   To do this, type Ctrl + Shift + P and type "WoS: Compile". Select the compile command.
+   Note: This currently doesn't do anything. 
