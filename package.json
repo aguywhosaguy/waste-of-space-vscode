@@ -1,0 +1,92 @@
+{
+  "name": "waste-of-space",
+  "displayName": "Waste Of Space",
+  "description": "Unofficial VSCode extension for Waste Of Space programming",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:waste-of-space.publishToHastebinCMD",
+    "onCommand:waste-of-space.publishToPastebinCMD",
+    "onCommand:waste-of-space.deploy",
+    "onLanguage:lua"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "waste-of-space.publishToHastebinCMD",
+        "title": "WoS: Publish to Hastebin"
+      },
+      {
+        "command": "waste-of-space.publishToPastebinCMD",
+        "title": "WoS: Publish to Pastebin"
+      },
+      {
+        "command": "waste-of-space.compile",
+        "title": "compile"
+      }
+    ],
+    "configuration": {
+      "title": "Waste of Space",
+      "properties": {
+        "waste-of-space.pastebin.pastebinKey": {
+          "type": "string",
+          "default": "",
+          "description": "Sets the default API key for publishing scripts to Pastebin."
+        },
+        "waste-of-space.pastebin.useFilenameasTitle": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, uses the file name as the title for the paste."
+        },
+        "waste-of-space.pastebin.pastePublicity": {
+          "type": "string",
+          "default": "Public",
+          "enum": [
+            "Public",
+            "Unlisted",
+            "Private"
+          ],
+          "enumDescriptions": [
+            "Posts the paste to the public.",
+            "Posts the paste, only letting it be accessed via URL. This can be loaded into Waste of Space.",
+            "Posts the paste, only letting you access it. This cannot be loaded into Waste of Space."
+          ]
+        },
+        "waste-of-space.gists.githubPersonalAccessToken": {
+          "type": "string",
+          "default": "",
+          "description": "Sets the default Personal Access Token for publishing scripts to Github Gists. Go to your Github account and go to Settings > Developer Settings > Personal access token and generate one with the 'gist' permission."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.70.0",
+    "@vscode/test-electron": "^2.1.5",
+    "eslint": "^8.20.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bent": "^7.3.12",
+    "hastebin-api": "^1.0.6",
+    "hastebin-generator": "^1.1.4",
+    "pastebin-api": "^5.1.3"
+  }
+}
