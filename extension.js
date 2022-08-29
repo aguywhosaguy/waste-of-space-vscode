@@ -57,19 +57,12 @@ function activate(context) {
 		vscode.window.showInformationMessage("Copied link (" + response + ") to clipboard.")
 	}
 	async function haste() {
-		// The code you place here will be executed every time your command is executed
-
-
-		// Display a message box to the user
 		const text = vscode.window.activeTextEditor.document.getText()
 		const url = await hastebin(text, "lua")
 		await vscode.env.clipboard.writeText(url)
 		vscode.window.showInformationMessage("Copied link (" + url + ") to clipboard.")
 	}
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	vscode.languages.registerHoverProvider('lua', {
+	/* vscode.languages.registerHoverProvider('lua', {
 		provideHover(document, position, token) {
 			console.log(position)
 			return new vscode.Hover(document.getText(document.getWordRangeAtPosition(position)));
@@ -96,6 +89,7 @@ function activate(context) {
 	},
 	"("
 	)
+	*/
 	let pTHCMD = vscode.commands.registerCommand('waste-of-space.publishToHastebinCMD', haste)
 	let pTPCMD = vscode.commands.registerCommand("waste-of-space.publishToPastebinCMD", paste)
 	let compile = vscode.commands.registerCommand("waste-of-space.compile", async function() {
